@@ -56,20 +56,33 @@ class ChatController extends Controller
     }
     
     
-    
     public function updateChat(Request $req, $id){
+    try {
         $chat = Chat::find($id);
-        if($chat){
-            $validated_data = $req->validate([
-                "sender_id" => "required|exists:users,id|numeric",
+        if (!$chat) {
+            return response()->json(['message' => 'Chat not found'], 404);
+        }
+
+        $validated_data = $req->validate([
+                          "sender_id" => "required|exists:users,id|numeric",
                 "receiver_id" => "required|exists:users,id|numeric",
                 "message" => "required|string|max:255"
-            ]);
-            $chat->update($validated_data);
-        }
-        return response()->json([
-            "message" => 'updated successfully'
-        ], 204);
+        ]);
+
+        $chat->update($validated_data);
+
+        return response()->json(['message' => 'updated successfully'], 204);
+    } catch (\Illuminate\Validation\ValidationException $e) {
+       
+        Log::error('Validation Error:', $e->errors());
+
+        return response()->json(['message' => 'Validation Error', 'errors' => $e->errors()], 422);
+    } catch (\Exception $e) {
+        
+        Log::error($e);
+
+        return response()->json(['message' => 'An error occurred', 'error' => $e->getMessage()], 500);
+    }
     }
     public function deleteChat($id){
         $chat = Chat::find($id);
