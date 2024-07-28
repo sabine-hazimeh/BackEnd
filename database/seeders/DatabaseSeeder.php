@@ -22,7 +22,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             ChatSeeder::class,
-            
+        ]);   
+        $this->call([
+            UserSeeder::class,
+            CodeSeeder::class,
         ]);
     }
 }

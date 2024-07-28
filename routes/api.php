@@ -5,6 +5,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\AuthController;
 use App\Models\Chat;
+use App\Http\Controllers\CodeController;
+use App\Models\Code;
+
+
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -35,5 +40,30 @@ Route::group([
 });
 
 Route::get('/users', [ChatController::class, 'getAllUsers']);
+
+
+// Route::group([
+//     // "middleware" => "authenticate",
+//     "prefix" => "code",
+//     "controller" => CodeController::class
+// ], function () {
+//     Route::get('/', 'getAllCode');
+//     Route::get('/{id}', 'getCode');
+//     Route::post('/', 'createCode');
+//     Route::delete('/{id}', 'deleteCode');
+//     Route::put('/{id}', 'updateCode');
+// });
+
+Route::group([
+    // "middleware" => "authenticate",
+    "prefix" => "code",
+    "controller" => CodeController::class
+], function () {
+    Route::get('/', 'getAllCode');
+    Route::get('/{id}', 'getCode');
+    Route::post('/', 'createCode');
+    Route::delete('/{id}', 'deleteCode');
+    Route::put('/{id}', 'updateCode');
+});
 
 
