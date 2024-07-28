@@ -34,3 +34,6 @@ Route::group([
     Route::get('/messages/{receiverId}', 'getMessages');
 });
 
+Route::get('/users', [ChatController::class, 'getAllUsers']);
+
+
