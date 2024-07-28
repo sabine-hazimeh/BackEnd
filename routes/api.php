@@ -30,13 +30,12 @@ Route::group([
     "prefix" => "chats",
     "controller" => ChatController::class
 ], function () {
-
-    Route::get('/', 'getAllChats');
+    Route::get('/', 'getAllChats')->middleware('auth.jwt');
     Route::get('/{id}',  'getChat');
-    Route::post('/', 'createChat');
+    Route::post('/', 'createChat')->middleware('auth.jwt');
     Route::delete('/{id}',  'deleteChat');
     Route::put('/{id}',  'updateChat');
-    Route::get('/messages/{receiverId}', 'getMessages');
+    Route::get('/messages/{receiverId}', 'getMessages')->middleware('auth.jwt');
 });
 
 Route::get('/users', [ChatController::class, 'getAllUsers']);

@@ -38,7 +38,7 @@ class ChatController extends Controller
     // }
     public function getMessages($receiverId)
     {
-        $userId = 152; // Get the ID of the authenticated user
+        $userId = 152; 
 
         
         $messages = Chat::where(function ($query) use ($userId, $receiverId) {
@@ -67,7 +67,7 @@ class ChatController extends Controller
         ]);
     
         
-        $validated_data['sender_id'] = 152;  // Default sender_id
+        $validated_data['sender_id'] = 152;  
     
         $chat = new Chat;
         $chat->fill($validated_data);
