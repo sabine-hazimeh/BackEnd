@@ -5,6 +5,7 @@ use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 
 class ChatController extends Controller
@@ -38,9 +39,12 @@ class ChatController extends Controller
     // }
     public function getMessages($receiverId)
     {
-        $userId = 152; 
-
-        
+        $userId = auth()->id();
+    
+        if (!$userId) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
+    
         $messages = Chat::where(function ($query) use ($userId, $receiverId) {
             $query->where('sender_id', $userId)
                   ->where('receiver_id', $receiverId);
@@ -51,9 +55,10 @@ class ChatController extends Controller
         })
         ->orderBy('created_at', 'asc')
         ->get();
-
+    
         return response()->json($messages);
     }
+    
     public function getChat($id){
         $chat = Chat::find($id);
         return response()->json([
@@ -61,14 +66,16 @@ class ChatController extends Controller
         ]);
     }
     public function createChat(Request $req){
+        $authorizationHeader = $req->header('Authorization');
+        Log::info('Received Authorization Header:', ['Authorization' => $authorizationHeader]);
         $validated_data = $req->validate([
             "receiver_id" => "required|exists:users,id|numeric",
             "message" => "required|string|max:255"
         ]);
     
         
-        $validated_data['sender_id'] = 152;  
-    
+        //  $validated_data['sender_id'] = 152;  
+        $validated_data['sender_id'] = auth()->id();
         $chat = new Chat;
         $chat->fill($validated_data);
         $chat->save();

@@ -33,10 +33,10 @@ Route::group([
 
     Route::get('/', 'getAllChats')->middleware('auth.user');
     Route::get('/{id}',  'getChat');
-    Route::post('/', 'createChat');
+    Route::post('/', 'createChat')->middleware('auth:api');
     Route::delete('/{id}',  'deleteChat');
     Route::put('/{id}',  'updateChat');
-    Route::get('/messages/{receiverId}', 'getMessages');
+    Route::get('/messages/{receiverId}', 'getMessages')->middleware('auth:api');
 });
 
 Route::get('/users', [ChatController::class, 'getAllUsers']);
