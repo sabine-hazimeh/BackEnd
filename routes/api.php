@@ -31,7 +31,7 @@ Route::group([
     "controller" => ChatController::class
 ], function () {
 
-    Route::get('/', 'getAllChats');
+    Route::get('/', 'getAllChats')->middleware('auth.user');
     Route::get('/{id}',  'getChat');
     Route::post('/', 'createChat');
     Route::delete('/{id}',  'deleteChat');
