@@ -41,6 +41,11 @@ Route::group([
 
 Route::get('/users', [ChatController::class, 'getAllUsers']);
 
+Route::middleware('auth:api', 'auth.admin')->group(function () {
+    Route::prefix('admin')->group(function () {
+        Route::get('/users', [ChatController::class, 'getAllUsers']);
+    });
+});
 
 // Route::group([
 //     // "middleware" => "authenticate",
