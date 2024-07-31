@@ -22,21 +22,7 @@ class ChatController extends Controller
             "users" => $users
         ], 200);
     }
-    // public function getMessages($receiverId){
-    //     $userId = auth()->id();
-    //     $receiverId = 1;
-    //     $messages = Chat::where(function ($query) use ($userId, $receiverId) {
-    //         $query->where('sender_id', $userId)
-    //               ->where('receiver_id', $receiverId);
-    //     })
-    //     ->orWhere(function ($query) use ($userId, $receiverId) {
-    //         $query->where('sender_id', $receiverId)
-    //               ->where('receiver_id', $userId);
-    //     })
-    //     ->get();
-
-    //     return response()->json($messages);
-    // }
+ 
     public function getMessages($receiverId)
     {
         $userId = auth()->id();
@@ -74,7 +60,7 @@ class ChatController extends Controller
         ]);
     
         
-        //  $validated_data['sender_id'] = 152;  
+        
         $validated_data['sender_id'] = auth()->id();
         $chat = new Chat;
         $chat->fill($validated_data);
@@ -85,25 +71,7 @@ class ChatController extends Controller
             "message" => 'created successfully'
         ], 201);
     }
-    
-    // public function createChat(Request $req) {
-    //     $validated_data = $req->validate([
-    //         "receiver_id" => "required|exists:users,id|numeric",
-    //         "message" => "required|string|max:255"
-    //     ]);
-    
-    //     $validated_data['sender_id'] = auth()->id();  // Use the authenticated user's ID
-    
-    //     $chat = new Chat;
-    //     $chat->fill($validated_data);
-    //     $chat->save();
-    
-    //     return response()->json([
-    //         "chat" => $chat,
-    //         "message" => 'created successfully'
-    //     ], 201);
-    // }
-    
+  
     public function updateChat(Request $req, $id){
     try {
         $chat = Chat::find($id);
