@@ -12,10 +12,10 @@ class CodeController extends Controller
     public function createCode(Request $req)
     {
         $validated_data = $req->validate([
-            "user_id" => "required|exists:users,id|numeric",
             "title" => "required|string|max:255",
             "code" => "required|string|min:0"
         ]);
+        $validated_data['user_id'] = 4;
         $code = new Code;
         $code->fill($validated_data);
         $code->save();
@@ -43,96 +43,6 @@ class CodeController extends Controller
         ], 200);
     }
 
-
-    // public function updateCode(Request $req, $id)
-    // {
-        
-    //     $validated_data = $req->validate([
-    //         "title" => "required|string|max:255",
-    //         "code" => "required|string|min:0"
-    //     ]);
-        
-    //     $code = Code::find($id);
-        
-    //     if (!$code) {
-    //         return response()->json([
-    //             "message" => "Code not found"
-    //         ], 404);
-    //     }
-
-    //     $code->title = $validated_data['title'];
-    //     $code->code = $validated_data['code'];
-    //     $code->save();
-        
-    //     return response()->json([
-    //         "code" => $code,
-    //         "message" => 'Updated successfully'
-    //     ], 200);
-    // }
-
-
-//     public function updateCode(Request $req, $id)
-// {
-//     $validated_data = $req->validate([
-//         "title" => "required|string|max:255",
-//         "code" => "required|string|min:0"
-//     ]);
-
-//     $code = Code::find($id);
-
-//     if (!$code) {
-//         return response()->json([
-//             "message" => "Code not found"
-//         ], 404);
-//     }
-
-//     $code->title = $validated_data['title'];
-//     $code->code = $validated_data['code'];
-//     $code->save();
-
-//     return response()->json([
-//         "code" => $code,
-//         "message" => 'Updated successfully'
-//     ], 200);
-// }
-
-
-// public function updateCode(Request $req, $id)
-// {
-//     Log::info('Update request received for ID: ' . $id);
-//     Log::info('Request data: ', $req->all());
-
-//     try {
-//         $validated_data = $req->validate([
-//             "title" => "required|string|max:255",
-//             "code" => "required|string|min:0"
-//         ]);
-
-//         $code = Code::find($id);
-
-//         if (!$code) {
-//             return response()->json([
-//                 "message" => "Code not found"
-//             ], 404);
-//         }
-
-//         $code->title = $validated_data['title'];
-//         $code->code = $validated_data['code'];
-//         $code->save();
-
-//         return response()->json([
-//             "code" => $code,
-//             "message" => 'Updated successfully'
-//         ], 200);
-
-//     } catch (\Exception $e) {
-//         // Log the error and return a generic error message
-//         Log::error($e->getMessage());
-//         return response()->json([
-//             "error" => "An error occurred while updating the code."
-//         ], 500);
-//     }
-// }
 
 
 public function updateCode(Request $req, $id)
