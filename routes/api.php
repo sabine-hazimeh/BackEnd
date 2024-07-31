@@ -7,7 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Models\Chat;
 use App\Http\Controllers\CodeController;
 use App\Models\Code;
-
+use App\Http\Controllers\AutocompleteController;
 
 
 Route::get('/user', function (Request $request) {
@@ -19,7 +19,7 @@ Route::get('/user', function (Request $request) {
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
     Route::post('register', 'register');
-    Route::post('logout', 'logout');
+    Route::post('logout', 'logout')->middleware('auth:api');
     Route::post('refresh', 'refresh');
 
 });
@@ -47,20 +47,9 @@ Route::middleware('auth:api', 'auth.admin')->group(function () {
     });
 });
 
-// Route::group([
-//     // "middleware" => "authenticate",
-//     "prefix" => "code",
-//     "controller" => CodeController::class
-// ], function () {
-//     Route::get('/', 'getAllCode');
-//     Route::get('/{id}', 'getCode');
-//     Route::post('/', 'createCode');
-//     Route::delete('/{id}', 'deleteCode');
-//     Route::put('/{id}', 'updateCode');
-// });
+
 
 Route::group([
-    // "middleware" => "authenticate",
     "prefix" => "code",
     "controller" => CodeController::class
 ], function () {
@@ -71,3 +60,8 @@ Route::group([
     Route::put('/{id}', 'updateCode');
 });
 
+
+    
+
+
+Route::post('/autocomplete', [AutocompleteController::class, 'getCompletion']);
